@@ -3,13 +3,9 @@ package com.pegabank.pegabank.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
@@ -18,7 +14,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         String ADMIN_ACCESS_URL = "/Welcome";
-        String CLIENT_ACCESS_URL = "/Home";
+        String CLIENT_ACCESS_URL = "/";
         String OPEN_ACCESS_URL = "";
         http.authorizeRequests()
                 .mvcMatchers(ADMIN_ACCESS_URL).authenticated()
@@ -32,6 +28,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+//    This is for inmemory
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsManager() {
 //        UserDetails admin = User.withDefaultPasswordEncoder().username("Himanshu").password("12345").authorities("admin").build();
@@ -40,15 +37,14 @@ public class SecurityConfig {
 //        return new InMemoryUserDetailsManager(admin, client);
 //    }
 
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+//    IT will conflict with custom table which implement UDS
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
-
 }

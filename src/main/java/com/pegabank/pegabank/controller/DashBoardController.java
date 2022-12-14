@@ -13,7 +13,7 @@ public class DashBoardController {
         return "Welcome Dashboard";
     }
 
-    @GetMapping("/Home")
+    @GetMapping("/")
     public String Home() {
         return "Welcome Home";
     }
