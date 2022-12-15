@@ -4,6 +4,7 @@ import com.pegabank.pegabank.model.Person;
 import com.pegabank.pegabank.repository.PersonRepository;
 import com.pegabank.pegabank.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +15,18 @@ public class PersonServiceImpl implements PersonService {
     @Autowired
     PersonRepository personRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public String save(Person person) {
-        Person existingPerson = personRepository.findById(person.getId()).orElse(null);
-        if (existingPerson == null) {
-            personRepository.save(person).equals(person);
+        List<Person> existingPerson = personRepository.findByEmail(person.getEmail());
+        if (existingPerson.isEmpty()) {
+            person.setPassword(passwordEncoder.encode(person.getPassword()));
+            personRepository.save(person);
             return "Saved";
         }
-        return "Person with Id already Present : " + person.getId();
+        return "Person with Email already Present : " + existingPerson.get(0).getEmail();
     }
 
     @Override

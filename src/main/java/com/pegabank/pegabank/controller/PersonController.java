@@ -14,8 +14,8 @@ public class PersonController {
     @Autowired
     PersonServiceImpl personService;
 
-    @PostMapping("/addPerson")
-    public String addPerson(@RequestBody Person person) {
+    @PostMapping("/register")
+    public String registerPerson(@RequestBody Person person) {
         return personService.save(person);
     }
 

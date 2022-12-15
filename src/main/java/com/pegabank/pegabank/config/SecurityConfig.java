@@ -3,7 +3,7 @@ package com.pegabank.pegabank.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -14,11 +14,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         String ADMIN_ACCESS_URL = "/Welcome";
-        String CLIENT_ACCESS_URL = "/";
-        String OPEN_ACCESS_URL = "";
-        http.authorizeRequests()
+        String OPEN_ACCESS_URL = "/register";
+        http
+                .csrf().disable()  //To allow access through postman
+                .authorizeRequests()
                 .mvcMatchers(ADMIN_ACCESS_URL).authenticated()
-                .mvcMatchers(CLIENT_ACCESS_URL).authenticated()
                 .mvcMatchers(OPEN_ACCESS_URL).permitAll()
                 .and()
                 .formLogin()
@@ -28,7 +28,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    This is for inmemory
+//    This is for in-memory/JDBC
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsManager() {
 //        UserDetails admin = User.withDefaultPasswordEncoder().username("Himanshu").password("12345").authorities("admin").build();
@@ -45,6 +45,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }
