@@ -28,21 +28,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    This is for in-memory/JDBC
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsManager() {
-//        UserDetails admin = User.withDefaultPasswordEncoder().username("Himanshu").password("12345").authorities("admin").build();
-//        UserDetails client = User.withDefaultPasswordEncoder().username("Raj").password("12345").authorities("client").build();
-//
-//        return new InMemoryUserDetailsManager(admin, client);
-//    }
-
-//    IT will conflict with custom table which implement UDS
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
