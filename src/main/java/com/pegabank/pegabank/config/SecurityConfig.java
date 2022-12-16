@@ -10,9 +10,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -20,8 +18,6 @@ public class SecurityConfig {
     //    Initial point where spring security get all filter details.
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        List<String> ADMIN_ACCESS_URL = Arrays.asList("/Welcome", "/getAllPerson");
-        String OPEN_ACCESS_URL = "/register";
         http
                 .cors().configurationSource(new CorsConfigurationSource() {
                     @Override
@@ -38,8 +34,8 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable()  //To allow access through postman
                 .authorizeRequests()
-                .mvcMatchers(String.valueOf(ADMIN_ACCESS_URL)).authenticated()
-                .mvcMatchers(OPEN_ACCESS_URL).permitAll()
+                .mvcMatchers("/Welcome", "/getAllPerson").authenticated()
+                .mvcMatchers("/register").permitAll()
                 .and()
                 .formLogin()
                 .and()

@@ -4,6 +4,7 @@ import com.pegabank.pegabank.model.Person;
 import com.pegabank.pegabank.response.PersonResponse;
 import com.pegabank.pegabank.service.impl.PersonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +16,12 @@ public class PersonController {
     PersonServiceImpl personService;
 
     @PostMapping("/register")
-    public String registerPerson(@RequestBody Person person) {
+    public ResponseEntity<String> registerPerson(@RequestBody Person person) {
         return personService.save(person);
     }
 
     @GetMapping("/getPerson/{id}")
-    public Person getPerson(@PathVariable("id") int id) {
+    public PersonResponse getPerson(@PathVariable("id") int id) {
         return personService.getPerson(id);
     }
 

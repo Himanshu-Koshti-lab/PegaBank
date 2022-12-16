@@ -19,12 +19,16 @@ public class PersonResponse {
     public static List<PersonResponse> personResponses(List<Person> persons) {
         List<PersonResponse> personResponses = new ArrayList<>();
         for (int i = 0; i < persons.size(); i++) {
-            PersonResponse person = new PersonResponse();
-            person.setName(persons.get(i).getName());
-            person.setEmail(persons.get(i).getEmail());
-            person.setRole(persons.get(i).getRole());
-            personResponses.add(person);
+            personResponses.add(personResponse(persons.get(i)));
         }
         return personResponses;
+    }
+
+    public static PersonResponse personResponse(Person person) {
+        PersonResponse personResponse = new PersonResponse();
+        personResponse.setName(person.getName());
+        personResponse.setEmail(person.getEmail());
+        personResponse.setRole(person.getRole());
+        return personResponse;
     }
 }

@@ -5,6 +5,8 @@ import com.pegabank.pegabank.repository.PersonRepository;
 import com.pegabank.pegabank.response.PersonResponse;
 import com.pegabank.pegabank.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +22,25 @@ public class PersonServiceImpl implements PersonService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public String save(Person person) {
+    public ResponseEntity<String> save(Person person) {
         List<Person> existingPerson = personRepository.findByEmail(person.getEmail());
         if (existingPerson.isEmpty()) {
             person.setPassword(passwordEncoder.encode(person.getPassword()));
             personRepository.save(person);
-            return "Saved";
+            return new ResponseEntity<String>("Saved", HttpStatus.CREATED);
         }
-        return "Person with Email already Present : " + existingPerson.get(0).getEmail();
+        String response = "Person with Email already Present : " + existingPerson.get(0).getEmail();
+        return new ResponseEntity<String>(response, HttpStatus.CONFLICT);
     }
 
     @Override
-    public Person getPerson(int id) {
-        Person existingPerson = personRepository.findById(id).orElse(null);
-        return existingPerson != null ? existingPerson : null;
+    public PersonResponse getPerson(int id) {
+        Person person = personRepository.findById(id).orElse(null);
+        if (person != null) {
+            return PersonResponse.personResponse(person);
+        } else {
+            return null;
+        }
     }
 
     @Override
