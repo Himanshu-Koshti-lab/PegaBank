@@ -1,6 +1,7 @@
 package com.pegabank.pegabank.controller;
 
 import com.pegabank.pegabank.model.Person;
+import com.pegabank.pegabank.response.PersonResponse;
 import com.pegabank.pegabank.service.impl.PersonServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class PersonController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class PersonController {
     }
 
     @GetMapping("/getAllPerson")
-    public List<Person> getAllPerson() {
+    public List<PersonResponse> getAllPerson() {
         return personService.getAllPerson();
     }
 }

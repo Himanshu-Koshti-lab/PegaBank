@@ -1,6 +1,7 @@
 package com.pegabank.pegabank.service;
 
 import com.pegabank.pegabank.model.Person;
+import com.pegabank.pegabank.response.PersonResponse;
 
 import java.util.List;
 
@@ -13,5 +14,5 @@ public interface PersonService {
 
     String deletePerson(int id);
 
-    List<Person> getAllPerson();
+    List<PersonResponse> getAllPerson();
 }

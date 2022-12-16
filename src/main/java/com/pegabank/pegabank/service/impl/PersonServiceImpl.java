@@ -2,6 +2,7 @@ package com.pegabank.pegabank.service.impl;
 
 import com.pegabank.pegabank.model.Person;
 import com.pegabank.pegabank.repository.PersonRepository;
+import com.pegabank.pegabank.response.PersonResponse;
 import com.pegabank.pegabank.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,7 +49,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> getAllPerson() {
-        return personRepository.findAll();
+    public List<PersonResponse> getAllPerson() {
+        List<Person> personList = personRepository.findAll();
+        return PersonResponse.personResponses(personList);
     }
 }
